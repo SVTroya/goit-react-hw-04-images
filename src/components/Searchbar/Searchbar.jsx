@@ -1,49 +1,40 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { SearchIcon, StyledHeader, StyledSearchForm } from './Searchbar.styled';
+import { useState } from 'react';
 
-export class Searchbar extends Component {
+Searchbar.propTypes = {
+  handleSearch: PropTypes.func,
+};
 
-  state = {
-    searchQuery: ''
-  };
+export function Searchbar({ handleSearch }) {
+  const [searchQuery, setSearchQuery] = useState('');
 
-  searchInputId = crypto.randomUUID();
+  const searchInputId = crypto.randomUUID();
 
-  static propTypes = {
-    onSubmit: PropTypes.func,
-  };
-
-  handleInputChange = ({target}) => {
-    this.setState({searchQuery: target.value})
-  }
-
-  onSubmit = (ev) => {
+  function onSubmit(ev){
     ev.preventDefault();
-    this.props.handleSearch(this.state)
-
-  };
-  render() {
-    return (
-      <StyledHeader>
-        <StyledSearchForm
-          onSubmit={this.onSubmit}>
-          <label htmlFor={this.searchInputId}>Search input</label>
-          <input
-            id={this.searchInputId}
-            value={this.state.searchQuery}
-            onChange={this.handleInputChange}
-            type='text'
-            name='searchQuery'
-            autoComplete='off'
-            autoFocus
-            placeholder='Search images and photos'
-          />
-          <button type='submit'>
-            <SearchIcon />
-          </button>
-        </StyledSearchForm>
-      </StyledHeader>
-    );
+    handleSearch(searchQuery);
   }
+
+  return (
+    <StyledHeader>
+      <StyledSearchForm
+        onSubmit={onSubmit}>
+        <label htmlFor={searchInputId}>Search input</label>
+        <input
+          id={searchInputId}
+          value={searchQuery}
+          onChange={({ target }) => setSearchQuery(target.value)}
+          type='text'
+          name='searchQuery'
+          autoComplete='off'
+          autoFocus
+          placeholder='Search images and photos'
+        />
+        <button type='submit'>
+          <SearchIcon />
+        </button>
+      </StyledSearchForm>
+    </StyledHeader>
+  );
 }
