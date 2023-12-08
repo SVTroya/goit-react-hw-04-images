@@ -34,8 +34,8 @@ export function App() {
         setImages([]);
         setTotalPages(0);
       } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     }
 
     fetchData();
