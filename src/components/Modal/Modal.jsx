@@ -21,13 +21,13 @@ export function Modal({ onClose, children }) {
 
   function handleBackdropClick(ev) {
     if (ev.target === ev.currentTarget) {
-      this.props.onClose();
+      onClose();
     }
   }
 
   function handleEscPress(ev) {
     if (ev.key === 'Escape') {
-      this.props.onClose();
+      onClose();
     }
   }
 
