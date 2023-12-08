@@ -10,9 +10,7 @@ export function Modal({ onClose, children }) {
   useEffect(() => {
     document.addEventListener('keydown', handleEscPress);
     document.body.style.overflow = 'hidden';
-  }, []);
 
-  useEffect(() => {
     return () => {
       document.removeEventListener('keydown', handleEscPress);
       document.body.style.overflow = 'visible';
