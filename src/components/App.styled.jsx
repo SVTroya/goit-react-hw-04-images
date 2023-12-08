@@ -5,3 +5,9 @@ export const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `
+
+export const NothingFoundMassage = styled.p`
+font-size: 24px;
+  font-weight: 500;
+  margin: 40px auto 0;
+`

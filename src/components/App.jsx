@@ -1,4 +1,4 @@
-import { StyledContainer } from './App.styled';
+import { NothingFoundMassage, StyledContainer } from './App.styled';
 import { useEffect, useState } from 'react';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
@@ -15,12 +15,18 @@ export function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImg, setModalImg] = useState(null);
+  const [isNothingFound, setIsNothingFound] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       try {
         setIsLoading(true);
         const data = await fetchImagesWithQuery({ q: searchQuery, page });
+
+        if (data.images.length === 0) {
+          setIsNothingFound(true);
+        }
+
         setImages(prev => [...prev, ...data.images]);
         setTotalPages(Math.ceil(data.totalHits / IMAGES_PER_PAGE));
       } catch (err) {
@@ -39,6 +45,7 @@ export function App() {
     setImages([]);
     setSearchQuery(search);
     setPage(1);
+    setIsNothingFound(false);
   }
 
   function handleShowMore() {
@@ -58,8 +65,11 @@ export function App() {
     <StyledContainer>
       <Searchbar handleSearch={handleSearch} />
       {images.length > 0
-        ? <ImageGallery images={images} onClick={handleImageClick} /> : null}
-        {/*? <ImageGallery images={images} onClick={handleImageClick} /> : <p>Sorry, but nothing were found 😢</p>}*/}
+        ? <ImageGallery images={images} onClick={handleImageClick} />
+        : null}
+      {isNothingFound
+        ? <NothingFoundMassage>Sorry, but nothing were found 😢</NothingFoundMassage>
+        : null}
       {(images.length > 0 && page < totalPages)
         ? <Button onClickHandler={handleShowMore} />
         : null}
